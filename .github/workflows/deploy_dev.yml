@@ -1,0 +1,40 @@
+on:
+  push:
+    branches:
+      - dev
+name: Deploy dev branch
+jobs:
+  deploy:
+    name: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: jitterbit/await-check-suites@v1
+        with:
+          # The commit's ref (can be a SHA, branch name, or a tag name).
+          # Default: ${{ github.sha }}
+          ref: "dev"
+
+          # Wait for a check suite to be created if none exist.
+          # This is important to protect against race conditions
+          # if you know a check suite should exist on the `ref`'s commit.
+          # Default: true
+          waitForACheckSuite: false
+
+          # Number of seconds to wait before timing out.
+          timeoutSeconds: 60
+
+          # Fail step if any of the check suites complete with a conclusion other than 'success'.
+          # Default: true
+          failStepIfUnsuccessful: false
+      - name: Sleep for 30 seconds
+        uses: jakejarvis/wait-action@master
+        with:
+          time: '30s'
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 10
+          registry-url: https://npm.pkg.github.com/
+      - run: npm install
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.READ_PACKAGES_SECRET }}
