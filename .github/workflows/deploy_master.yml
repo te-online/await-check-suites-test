@@ -1,8 +1,8 @@
 on:
   push:
     branches:
-      - dev
-name: Deploy dev branch
+      - master
+name: Deploy master branch
 jobs:
   deploy:
     name: deploy
