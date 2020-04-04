@@ -22,7 +22,7 @@ jobs:
           waitForACheckSuite: false
 
           # Number of seconds to wait before timing out.
-          timeoutSeconds: 60
+          timeoutSeconds: 600
 
           # Fail step if any of the check suites complete with a conclusion other than 'success'.
           # Default: true
