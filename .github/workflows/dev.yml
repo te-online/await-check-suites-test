@@ -5,7 +5,10 @@ on:
 name: Dev branch
 jobs:
   test:
-    - uses: jitterbit/await-check-suites@v1
+    name: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: jitterbit/await-check-suites@v1
         with:
           # The commit's ref (can be a SHA, branch name, or a tag name).
           # Default: ${{ github.sha }}
@@ -23,9 +26,6 @@ jobs:
           # Fail step if any of the check suites complete with a conclusion other than 'success'.
           # Default: true
           failStepIfUnsuccessful: false
-    name: test
-    runs-on: ubuntu-latest
-    steps:
       - run: |
           echo -n Sleeping for 5 minutes...
           sleep 5m
