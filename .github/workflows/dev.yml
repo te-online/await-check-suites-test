@@ -5,6 +5,24 @@ on:
 name: Dev branch
 jobs:
   test:
+    - uses: jitterbit/await-check-suites@v1
+        with:
+          # The commit's ref (can be a SHA, branch name, or a tag name).
+          # Default: ${{ github.sha }}
+          ref: "dev"
+
+          # Wait for a check suite to be created if none exist.
+          # This is important to protect against race conditions
+          # if you know a check suite should exist on the `ref`'s commit.
+          # Default: true
+          waitForACheckSuite: false
+
+          # Number of seconds to wait before timing out.
+          timeoutSeconds: 600
+
+          # Fail step if any of the check suites complete with a conclusion other than 'success'.
+          # Default: true
+          failStepIfUnsuccessful: false
     name: test
     runs-on: ubuntu-latest
     steps:
